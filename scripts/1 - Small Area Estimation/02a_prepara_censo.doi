@@ -1,18 +1,19 @@
 import dbase using "${path_datain}\radios_eph_with_link.dbf", clear
 
-keep id eph_codagl eph_aglome link_radio
+keep eph_codagl eph_aglome link_radio
 
 destring eph_codagl, replace
 destring link_radio, replace
-
+  
 gen any_reg = (eph_codagl==2)
-foreach a in 3 4 5 6 7 8 9 10 12 13 14 15 17 18 19 20 22 23 25 26 27 29 30 31 32 33 34 36 38 {
+foreach a in 2 3 4 5 6 7 8 9 10 12 13 14 15 17 18 19 20 22 23 25 26 27 29 30 31 32 33 34 36 38 {
 	gen reg`a' =0
 	replace reg`a' = 1 if eph_codagl ==`a'
 	replace any_reg = 1 if eph_codagl ==`a'
 }
 drop if any_reg==0
 drop any_reg
+
 duplicates drop link_radio, force
 
 save "${path_datain}\radios_eph_with_link.dta", replace
@@ -21,6 +22,13 @@ drop _all
 use "${path_datain}\censo2010_fullraw_p.dta" 
 
 **duplicates report link nviv nhog nper
+
+rename link link_radio
+merge m:1 link_radio using "${path_datain}\radios_eph_with_link.dta"
+
+keep if _merge==3
+drop _merge
+
 
 egen id =group(link nviv nhog)
 gen com =nper
@@ -422,9 +430,5 @@ compress
 ren prov cprov 
 ren dpto cdpto
 
-rename link link_radio
-merge m:1 link_radio using "${path_datain}\radios_eph_with_link.dta"
-ta _merge
-stop
-gen aglomerado = caglo 
+gen aglomerado = eph_codagl
 

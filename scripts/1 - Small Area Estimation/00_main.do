@@ -58,7 +58,7 @@ global eph_seleccionada "15"
 
 * Evita correr el prepara_censo
 glo tengo_censo  "NO" // "SI" o "NO"
-stop
+
 
 *##########################################################*
 ****** crea variables en EPH y regresiona por MCO el ingreso percápita de pobreza moderada
@@ -73,31 +73,15 @@ do "${path_scripts}\02_censo_variables.do"
 dis "Terminó: 02_censo_variables"
 timer off 2
 stop
-loc base_15 "ARG_2010_EPHC-S2"
-use "${path_dataout}\\`base_15'_v03_M_v01_A_SEDLAC-03_proc.dta", clear
-keep if jefe==1
 
-loc vjefe "hombre edad edad2 pric seci secc supi supc"
-loc vviv "hv_precaria hv_matpreca hv_agua hv_banio hv_cloacas hv_propieta "
-loc vhog "hv_miemhabi miembros " 
-loc vreg "reg3 reg4 reg5 reg6 reg7 reg8 reg9 reg10 reg12 reg13 reg14 reg15 reg17 reg18 reg19 reg20 reg22 reg23 reg25 reg26 reg27 reg29 reg30 reg31 reg32 reg33 reg34 reg36 "
+****** Agrega preedicciones por radio censal
+timer on 4
+do "${path_scripts}\03_collapse_link.do"
+dis "Terminó: 03b_collapse_link"
+timer off 4
 
-sae data import, datain("${prepara_censo}") varlist(`vjefe' `vviv' `vhog' `vreg') area(link) uniqid(id) dataout("${path_dataout}\\mata_censo")
-sae data import, datain("${path_dataout}\\`base_15'_v03_M_v01_A_SEDLAC-03_proc.dta") varlist(`vjefe' `vviv' `vhog' `vreg') area(link) uniqid(id) dataout("${path_dataout}\\mata_eph")
 
-sae model povmap ipcf `vjefe' `vviv' `vhog' `vreg', area(link) vce(ell)
 
-// ****** Crea variables intertemporales 
-// timer on 3
-// *do "${path_scripts}\03a_variables_analisis.do"
-// dis "Terminó: 03_variables_analisis"
-// timer off 3
-//
-// ****** Crea variables intra radios censales
-// timer on 4
-// *do "${path_scripts}\03b_collapse_link.do"
-// dis "Terminó: 03b_collapse_link"
-// timer off 4
 //
 //
 //

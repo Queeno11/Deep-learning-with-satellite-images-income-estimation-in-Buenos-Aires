@@ -156,35 +156,35 @@ def load_nightlight_datasets(stretch=False):
     return datasets, extents
 
 
-def load_icpag_dataset(variable="ln_pred_inc_mean", trim=True):
-    """Open ICPAG dataset and merge with ELL estimation."""
+def load_income_dataset(variable="ln_pred_inc_mean", trim=True):
+    """Open income dataset and merge with ELL estimation (small area estimates)."""
 
     # Open ICPAG dataset
-    icpag = gpd.read_file(rf"{path_datain}/ICPAG/base_icpag_500k.shp")
-    icpag = icpag.to_crs(epsg=4326)
-    icpag = icpag[icpag.AMBA_legal == 1].reset_index(drop=True)
+    gdf = gpd.read_parquet(rf"{path_dataout}/small_area_estimates.parquet")
+    gdf = gdf.to_crs(epsg=4326)
+    gdf = gdf[gdf.AMBA_legal == 1].reset_index(drop=True)
     if trim:
-        icpag = icpag[icpag["AREA"] <= 200000]  # Remove rc that are too big
+        gdf = gdf[gdf["AREA"] <= 200000]  # Remove rc that are too big
 
     # Open ELL estimation
-    collapse_link = pd.read_stata(rf"{path_datain}/predict_ingreso_collapse.dta")
+    collapse_link = pd.read_stata(rf"{path_dataout}/predict_ingreso_collapse.dta")
 
-    # Merge icpag indicators with ELL estimation
-    icpag["link"] = icpag["link"].astype(str).str.zfill(9)
+    # Merge gdf indicators with ELL estimation
+    gdf["link"] = gdf["link"].astype(str).str.zfill(9)
     collapse_link["link"] = collapse_link["link"].astype(str).str.zfill(9)
-    icpag = icpag.merge(collapse_link, on="link", how="left", validate="1:1")
+    gdf = gdf.merge(collapse_link, on="link", how="left", validate="1:1")
 
     # Normalize ELL estimation:
-    var_mean = icpag[variable].mean()
-    var_std = icpag[variable].std()
-    icpag["var"] = (icpag[variable] - var_mean) / var_std
+    var_mean = gdf[variable].mean()
+    var_std = gdf[variable].std()
+    gdf["var"] = (gdf[variable] - var_mean) / var_std
 
     data_dict = {"mean": var_mean, "std": var_std}
     pd.DataFrame().from_dict(data_dict, orient="index", columns=[variable]).to_csv(
         rf"{path_dataout}/scalars_{variable}_trim{trim}.csv"
     )
 
-    return icpag
+    return gdf
 
 
 def assign_datasets_to_gdf(
