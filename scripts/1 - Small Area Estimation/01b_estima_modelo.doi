@@ -1,0 +1,8 @@
+eststo: noi reg ln_ipcf_ppp11 hombre edad edad2 edad1217 edad1824 edad2540 edad4164 edad65 pric seci secc supi supc hv_* miembros miembros2 jj_*  cc_* jefe reg2 reg3 reg4 reg5 reg6 reg7 reg8 reg9 reg10 reg13 reg14 reg15 reg17 reg18 reg19 reg20 reg22 reg23 reg25 reg26 reg27 reg29 reg30 reg31 reg32 reg33 reg34 reg36
+*esttab, b(3) not noobs mtitle("Ingreso Esperado")
+esttab using "${path_tables}\\regresion_`i'", replace b(3) se(3) noobs not mtitle("Ingreso Esperado")	 ///
+ booktabs long alignment(D{.}{.}{-1}) 																		///
+title("Tabla `i'") addnotes("Elaboración propia en base a EPH")
+noi estimates save "${path_dataout}\ster\MCO_ingreso_`i'", replace
+capture erase  "${path_dataout}\ster\MCO_ingreso_`i'.txt"
+outreg2 using  "${path_dataout}\ster\MCO_ingreso_`i'.txt", append ctitle("`EPH_`i''")
