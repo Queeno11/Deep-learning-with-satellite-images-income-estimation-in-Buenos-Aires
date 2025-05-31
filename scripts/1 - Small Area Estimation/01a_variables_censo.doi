@@ -163,49 +163,6 @@ capture drop if ipcf_ppp11 ==0
 
 **************************
 
-gen ingreso_hd =  labor_total_hd + no_laboral_hd
-*fixme revisar si esto de renombrar variables es correcto 
-
-fgt ingreso_hd [w=pondera] if cohh==1, z(lp_extrema) a(0)
-fgt ingreso_hd [w=pondera] if cohh==1, z(lp_moderada) a(0)
-
-*fgt ingreso2_hd [w=pondera] if cohh==1, z(lp_extrema) a(0)
-*fgt ingreso2_hd [w=pondera] if cohh==1, z(lp_moderada) a(0)
-* pobreza oficial
-* variable de ingreso equivalente oficial
-* ingreso_hd
-* lineas
-* lp_extrema 
-* lp_moderada
-*gen pobre_4usd =.
-*replace pobre_4usd =0 if ipcf_ppp05>=lp4_05 & ipcf_ppp05<. & cohh==1
-*replace pobre_4usd =1 if ipcf_ppp05<lp4_05  & cohh==1
-*ta pobre_4usd [w=pondera]
-
-gen pobre_ext =.
-replace pobre_ext =0 if ingreso_hd>=lp_extrema & ingreso_hd<. & cohh==1
-replace pobre_ext =1 if ingreso_hd<lp_extrema  & cohh==1
-ta pobre_ext [w=pondera]
-
-gen pobre_mod =.
-replace pobre_mod =0 if ingreso_hd>=lp_moderada & ingreso_hd<. & cohh==1
-replace pobre_mod =1 if ingreso_hd<lp_moderada & cohh==1
-ta pobre_mod [w=pondera]
-
-* ingreso sin transferencias estatales (v4_m v5_m v11_m)
-/*
-gen pobre_ext2 =.
-replace pobre_ext2 =0 if ingreso2_hd>=lp_extrema & ingreso2_hd<. & cohh==1
-replace pobre_ext2 =1 if ingreso2_hd<lp_extrema  & cohh==1
-ta pobre_ext [w=pondera]
-
-gen pobre_mod2 =.
-replace pobre_mod2 =0 if ingreso2_hd>=lp_moderada & ingreso2_hd<. & cohh==1
-replace pobre_mod2 =1 if ingreso2_hd<lp_moderada & cohh==1
-ta pobre_mod2 [w=pondera]
-*/
-
-
 gen aedu2 = aedu*aedu 
 
 if "${winsor}" == "SI" {

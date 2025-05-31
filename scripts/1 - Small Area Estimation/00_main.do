@@ -36,8 +36,6 @@ $path_programas	- Programas (fgt, gini, cuantiles, etc.)
 global path_ster "${path_dataout}\ster" 
 capture mkdir "${path_dataout}\ster"
 
-
-
 *############      Creo globales bases     ##############*
 global prepara_censo     "${path_dataout}\prepara_censo"
 global censo             "${path_dataout}\predict_censo"
@@ -45,19 +43,7 @@ global censo_analisis    "${path_dataout}\predict_ingreso_analisis"
 global collapse    		 "${path_dataout}\predict_ingreso_collapse" 
 
 *global total_bases 30
-global eph_seleccionada "15"
-
-** Fijo
-*capture ssc install spmap
-*capture ssc install unique
-*capture ssc install outreg2
-*capture ssc install qregsel
-
-*##########################################################*
-*############      Botonera    ##############* 
-
-* Evita correr el prepara_censo
-glo tengo_censo  "NO" // "SI" o "NO"
+global eph_estimacion "1"
 
 
 *##########################################################*
@@ -77,37 +63,8 @@ stop
 ****** Agrega preedicciones por radio censal
 timer on 4
 do "${path_scripts}\03_collapse_link.do"
-dis "Terminó: 03b_collapse_link"
+dis "Terminó: 03_collapse_link"
 timer off 4
 
-
-
-//
-//
-//
-// ****** Crea variables intra radios circuitos 
-// timer on 5
-// do "${path_scripts}\03c_collapse_circuito.do"
-// dis "Terminó: 03c_collapse_circuito"
-// timer off 5
-//
-// // ****** Prepara gráficos
-// // timer on 6
-// // do "${path_scripts}\10_prepara_graficos.do"
-// // dis "Terminó: 10_prepara_graficos"
-// // timer off 6
-//
-// ****** Crea gráficos
-// timer on 7
-// qui do "${path_scripts}\06_graficos.do"
-// dis "Terminó: 06_graficos"
-// timer off 7 
-//
-// **********************
-// **********************
-//
-// timer list 
-// dis "goooooool"
-//
-
+display "Small Area estimates created correctly! Available in {path_dataout}/small_area_estimates.parquet"
 

@@ -164,15 +164,7 @@ def load_income_dataset(variable="ln_pred_inc_mean", trim=True):
     gdf = gdf.to_crs(epsg=4326)
     gdf = gdf[gdf.AMBA_legal == 1].reset_index(drop=True)
     if trim:
-        gdf = gdf[gdf["AREA"] <= 200000]  # Remove rc that are too big
-
-    # Open ELL estimation
-    collapse_link = pd.read_stata(rf"{path_dataout}/predict_ingreso_collapse.dta")
-
-    # Merge gdf indicators with ELL estimation
-    gdf["link"] = gdf["link"].astype(str).str.zfill(9)
-    collapse_link["link"] = collapse_link["link"].astype(str).str.zfill(9)
-    gdf = gdf.merge(collapse_link, on="link", how="left", validate="1:1")
+        gdf = gdf[gdf["Area"] <= 200000]  # Remove rc that are too big
 
     # Normalize ELL estimation:
     var_mean = gdf[variable].mean()

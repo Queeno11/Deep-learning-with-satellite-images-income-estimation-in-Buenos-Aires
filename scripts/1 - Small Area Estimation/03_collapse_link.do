@@ -34,4 +34,7 @@ gdf["AMBA_legal"] = gdf["eph_codagl"].isin(["33", "32", "02"])
 gdf["Area"] = gdf["geometry"].area  # Convert to square kilometers
 
 gdf.to_parquet(rf"{path_dataout}\small_area_estimates.parquet")
+gdf = gdf.drop_duplicates(subset="link")
+gdf.drop(columns=["geometry"]).to_stata(rf"{path_dataout}\small_area_estimates.dta")
+
 end
