@@ -13,13 +13,13 @@ High-resolution income data is crucial for informing policy decisions as it allo
 
 Unfortunately, the satellite imagery utilized in this study is proprietary and subject to legal restrictions imposed by Airbus DS Geo SA and the Argentine National Commission for Space Activities (CONAE). Under the end-user license agreement, raw satellite imagery cannot be distributed publicly or shared with third parties.
 
-However, to ensure transparency and reproducibility, we provide all derived data and resources permissible under these restrictions:
+However, to ensure transparency and reproducibility, we provide all derived data and resources permissible under these restrictions in a [zenodo repository](https://doi.org/10.5281/zenodo.11200069). This repo includes:
 
-- Argentina's 2010 Census and Survey Dataset (S1 Dataset): Publicly available via Zenodo at DOI: [Insert your Zenodo DOI for S1 Dataset]. This dataset is used for replicating the small-area estimates employed in model training (the scripts available in `1 - Small Area Estimation`).
+- Argentina's 2010 Census and Survey Dataset. This dataset is used for replicating the small-area estimates employed in model training (the scripts available in `1 - Small Area Estimation`).
 
-- Derived Income Estimates (S2 Dataset): Aggregated per capita income estimates at census tract level and detailed 50x50m gridded income predictions for 2013, 2018, and 2022. Publicly available via Zenodo at DOI: [Insert your Zenodo DOI for S2 Dataset]. These estimates are the result of running `2 - Model Training\main.py`. These results are used for replicating all the figures and tables presented in the Results section of the paper, via running the scripts from `3 - Tables and Figures`.
+- Derived Income Estimates. Aggregated per capita income estimates at census tract level and detailed 50x50m gridded income predictions for 2013, 2018, and 2022. These estimates are the result of running `2 - Model Training\main.py`. These results are used for replicating all the figures and tables presented in the Results section of the paper, via running the scripts from `3 - Tables and Figures`.
 
-- Trained Model Weights (S3 Dataset): EfficientNetV2 model weights (for 4-band and 8-band inputs). Available via Zenodo at DOI: [Insert your Zenodo DOI for S3 Dataset]. Although these weights are not essential for replicating the primary findings, they are provided for further model fine-tuning in other contexts.
+- Trained Model Weights. EfficientNetV2 model weights (for 4-band and 8-band inputs). Although these weights are not essential for replicating the primary findings, they are provided for further model fine-tuning in other contexts.
 
 For researchers who wish to replicate the full analysis pipeline starting from the original source imagery, the data must be acquired commercially. The proprietary Pleiades and Pleiades NEO satellite imagery is owned by Airbus and can be purchased through their data portal: https://space-solutions.airbus.com/imagery/. To facilitate this process, we provide the unique product identifiers for each scene used in this study. These identifiers can be used to query the Airbus archive and purchase the exact scenes.
 
