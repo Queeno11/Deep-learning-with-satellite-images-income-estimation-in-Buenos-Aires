@@ -21,6 +21,11 @@ However, to ensure transparency and reproducibility, we provide all derived data
 
 - Trained Model Weights (S3 Dataset): EfficientNetV2 model weights (for 4-band and 8-band inputs). Available via Zenodo at DOI: [Insert your Zenodo DOI for S3 Dataset]. Although these weights are not essential for replicating the primary findings, they are provided for further model fine-tuning in other contexts.
 
+For researchers who wish to replicate the full analysis pipeline starting from the original source imagery, the data must be acquired commercially. The proprietary Pleiades and Pleiades NEO satellite imagery is owned by Airbus and can be purchased through their data portal: https://space-solutions.airbus.com/imagery/. To facilitate this process, we provide the unique product identifiers for each scene used in this study. These identifiers can be used to query the Airbus archive and purchase the exact scenes.
+
+- *Pléiades*: for 2013 imagery the IDs are DS_PHR1A_201302051411520_FR1_PX_W059S35_0807_03124, DS_PHR1A_201302071357305_FR1_PX_W059S35_0410_06105 and DS_PHR1A_201302071357509_FR1_PX_W059S35_0609_05426, and for 2018, DS_PHR1A_201803251356358_FR1_PX_W059S35_0909_03875, DS_PHR1A_201808021356574_FR1_PX_W059S35_0509_06938 and DS_PHR1A_201808021357186_FR1_PX_W059S35_0706_06104.
+- *Pleiades NEO*: for 2022 imagery the IDs used are 000047717_1_22_STD_A, 000047717_1_24_STD_A, 000047717_1_25_STD_A, 000047717_1_26_STD_A, 000058605_1_3_STD_A, 000058605_1_4_STD_A, 000058605_1_7_STD_A, and 000058608_1_2_STD_A.
+ 
 ## Repository Contents
 
 - *`1 - Small Area Estimation`*: All the scripts used for generating the training labels, derived from the methodology depicted in Section 5.1 from the main paper. By running `00_main.do` in STATA, the user should be able to replicate the maps later used by the function `build_dataset.load_icpag_dataset()` from the `2 - Model Training` section.
